@@ -1,5 +1,5 @@
 # 🧪 Cypress AmbevTech
-## Projeto de testes automatizados E2E e API com Cypress + Cucumber para avaliação técnica da AmbevTech.
+## Projeto de testes automatizados E2E e API com Cypress + Cucumber;
 
 ## 🔧 Tecnologias
 - Cypress
