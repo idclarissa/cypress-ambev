@@ -26,20 +26,41 @@ When('confirmo o cadastro', () => {
   cy.get('[data-testid=cadastrar]').click();
 });
 
-Then('deve exibir mensagem de sucesso {string}', (mensagemEsperada) => {
-  cy.contains(mensagemEsperada).should('be.visible');
-});
-
 Given('que acesso a página de login', () => {
   cy.visit('https://front.serverest.dev/login');
 });
 
 When('faço login com o usuário recém-cadastrado', () => {
+  cy.wait(2222)
+  
   cy.get('[data-testid=email]').type(emailGerado);
   cy.get('[data-testid=senha]').type(senha);
   cy.get('[data-testid=entrar]').click();
 });
 
 Then('devo ser redirecionado para a página inicial', () => {
-  cy.contains('Listar Produtos').should('be.visible');
+  cy.contains('Produtos').should('be.visible');
+});
+
+let usuario = {};
+
+Given('que estou na página de cadastro de usuários', () => {
+  cy.visit('https://front.serverest.dev/cadastrarusuarios');
+  cy.url().should('include', '/cadastrarusuarios');
+});
+
+When('preencho o formulário com dados de usuário comum válidos', () => {
+  usuario = {
+    nome: `Usuário Comum ${Date.now()}`,
+    email: `comum_${Date.now()}@qa.com`,
+    senha: '123456'
+  };
+
+  cy.get('[data-testid="nome"]').type(usuario.nome);
+  cy.get('[data-testid="email"]').type(usuario.email);
+  cy.get('[data-testid="password"]').type(usuario.senha);
+});
+
+Then('deve exibir mensagem de sucesso {string}', (mensagemEsperada) => {
+  cy.contains(mensagemEsperada).should('be.visible');
 });

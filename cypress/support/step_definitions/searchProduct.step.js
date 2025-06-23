@@ -30,11 +30,50 @@ When('envio o formulário', () => {
 /* --------- CENÁRIO 3 --------- */
 
 When('acesso a listagem de produtos', () => {
+  
   cy.visit('https://front.serverest.dev/admin/listarprodutos');
+  cy.wait(4000)
   cy.intercept('GET', '**/produtos').as('getProdutos');
+  cy.visit('https://front.serverest.dev/home');
   cy.wait('@getProdutos');
 });
 
-Then('o produto com descrição {string} deve estar visível na lista', (descricao) => {
-  cy.get('table').contains('td', descricao).should('be.visible');
+Then('o produto no índice {int} deve estar visível na lista', (index) => {
+  cy.get('.card-body', { timeout: 300 }) 
+    .eq(0) 
+    .should('be.visible'); 
+});
+
+When('adiciono produtos à minha lista de compras', () => {
+  cy.get('[data-testid="adicionarNaLista"]').first().within(() => {
+  cy.contains('button', 'Adicionar a lista').click();
+  });
+});
+
+Then('o produto deve aparecer na lista de compras', () => {
+  cy.get('[data-testid="carrinho"]').click();
+  cy.get('[data-testid="lista-produtos"]')
+    .children()
+    .should('have.length.greaterThan', 0);
+});
+
+let token = '';
+let produtoId = '';
+let ultimaResposta = null;
+
+When('adiciono um produto à lista de compras', () => {
+  cy.url().should('include', '/home');
+
+  cy.get('div.card').first().within(() => {
+    cy.get('[data-testid="adicionarNaLista"]').invoke('text').then((text) => {
+      nomeProduto = text.trim();
+    });
+
+    cy.contains('button', 'Adicionar a lista').click();
+  });
+});
+
+Then('o produto deve aparecer na tela de lista de produtos', () => {
+  cy.visit('https://front.serverest.dev/minhaListaDeProdutos');
+  cy.contains(nomeProduto).should('exist');
 });

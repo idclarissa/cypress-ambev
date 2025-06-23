@@ -1,0 +1,8 @@
+{
+  "nome": "Ambev Teste",
+  "email": "ambev_teste_123@qa.com",
+  "password": "123456",
+  "administrador": "true",
+  "message": "Cadastro realizado com sucesso",
+  "_id": "id_gerado"
+}
