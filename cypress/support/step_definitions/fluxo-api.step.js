@@ -4,6 +4,15 @@ let usuario = {};
 let usuarioId = null;
 let ultimaResposta = null;
 
+Given('envio uma requisição GET para buscar o usuário criado', () => {
+  cy.request({
+    method: 'GET',
+    url: `https://serverest.dev/usuarios/${usuarioId}`,
+    failOnStatusCode: false
+  }).then((res) => {
+    ultimaResposta = res;
+  });
+});
 
 When('envio uma requisição POST para {string} com dados válidos de admin', () => {
   usuario = {

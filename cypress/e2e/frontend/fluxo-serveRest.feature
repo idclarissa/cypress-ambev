@@ -7,6 +7,7 @@ Feature: Skome test - Fluxo completo de cadastro de usuário e adição de produ
     Then deve exibir mensagem de sucesso "Cadastro realizado com sucesso"
 
   Scenario: Cadastrar novo produto e validar o mesmo 
+    Given envio uma requisição GET para buscar o usuário criado
     Given que acesso a página de login
     When faço login com o usuário recém-cadastrado
     Then devo ser redirecionado para a página inicial
